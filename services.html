@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Services & Pricing — NexCod Developers</title>
+  <link rel="stylesheet" href="shared.css">
+  <style>
+  .pg-hero { background: var(--cream); padding: calc(var(--nav-h) + 80px) 0 80px; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+  .pg-hero::after { content:''; position:absolute; top:0; right:0; width:500px; height:100%; background: radial-gradient(ellipse at 100% 50%, rgba(184,148,74,0.07) 0%, transparent 70%); pointer-events:none; }
+
+  /* ── FILTER TABS ── */
+  .ftabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:56px; }
+  .ftab {
+    padding:9px 22px; border-radius:var(--radius-pill);
+    font-size:13px; font-weight:600; letter-spacing:0.03em;
+    border:1.5px solid var(--border); color:var(--ink-mid);
+    background:var(--white); cursor:pointer;
+    transition:all var(--tr-fast);
+  }
+  .ftab:hover { border-color:var(--gold); color:var(--gold); background:var(--gold-bg); }
+  .ftab.on { background:var(--ink); border-color:var(--ink); color:var(--white); }
+
+  /* ── SERVICE CARDS ── */
+  .svc-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+
+  .svc-card {
+    background:var(--white); border:1px solid var(--border);
+    border-radius:var(--radius-xl); padding:40px 36px;
+    display:flex; flex-direction:column;
+    position:relative; overflow:hidden;
+    transition:transform var(--tr), border-color var(--tr), box-shadow var(--tr);
+  }
+  .svc-card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:4px;
+    background:linear-gradient(90deg, var(--gold-dark), var(--gold-xlight));
+    transform:scaleX(0); transform-origin:left;
+    transition:transform 0.5s var(--ease-out);
+  }
+  .svc-card:hover { transform:translateY(-10px); border-color:var(--gold-bdr); box-shadow:var(--shadow-xl); }
+  .svc-card:hover::before { transform:scaleX(1); }
+  .svc-card.popular {
+    border-color:var(--gold-bdr);
+    background:linear-gradient(160deg, #fffdf8 0%, var(--white) 100%);
+  }
+  .svc-card.popular::before { transform:scaleX(1); }
+
+  .popular-tag {
+    position:absolute; top:20px; right:20px;
+    font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase;
+    padding:5px 12px; background:var(--gold); color:var(--white);
+    border-radius:var(--radius-pill);
+  }
+
+  .svc-icon {
+    width:60px; height:60px; border-radius:var(--radius-md);
+    background:var(--cream); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    font-size:26px; margin-bottom:22px;
+    transition:background var(--tr), border-color var(--tr), transform var(--tr);
+  }
+  .svc-card:hover .svc-icon { background:var(--gold-bg); border-color:var(--gold-bdr); transform:scale(1.08) rotate(-3deg); }
+
+  .svc-num { font-size:11px; font-weight:700; letter-spacing:0.12em; color:var(--ink-faint); margin-bottom:6px; }
+  .svc-card h3 { font-family:var(--font-serif); font-size:1.25rem; font-weight:700; margin-bottom:10px; }
+
+  .svc-price-box { margin-bottom:16px; }
+  .svc-amount {
+    font-family:var(--font-serif);
+    font-size:2rem; font-weight:900; color:var(--ink);
+    letter-spacing:-0.03em; display:block; line-height:1;
+  }
+  .svc-price-note { font-size:12px; color:var(--ink-soft); margin-top:4px; }
+
+  .svc-desc { font-size:14px; color:var(--ink-mid); line-height:1.7; margin-bottom:20px; }
+  .svc-features { display:flex; flex-direction:column; gap:8px; margin-bottom:28px; flex:1; }
+  .sf {
+    display:flex; align-items:center; gap:10px;
+    font-size:13.5px; color:var(--ink-mid);
+  }
+  .sf::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--gold); flex-shrink:0; }
+
+  .buy-btn {
+    width:100%; padding:14px;
+    background:var(--ink); color:var(--white);
+    font-size:14px; font-weight:700; letter-spacing:0.03em;
+    border-radius:var(--radius-sm); border:none; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    position:relative; overflow:hidden;
+    transition:transform var(--tr), box-shadow var(--tr), color var(--tr-fast);
+  }
+  .buy-btn::after {
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(135deg, var(--gold), var(--gold-dark));
+    transform:scaleX(0); transform-origin:right;
+    transition:transform 0.4s var(--ease-out);
+    z-index:0;
+  }
+  .buy-btn span { position:relative; z-index:1; }
+  .buy-btn:hover { transform:translateY(-2px); box-shadow:var(--shadow-gold); }
+  .buy-btn:hover::after { transform:scaleX(1); transform-origin:left; }
+  .svc-card.popular .buy-btn { background:var(--gold); }
+  .svc-card.popular .buy-btn:hover { background:var(--gold); }
+
+  /* ── GUARANTEE ── */
+  .guarantee { background:var(--cream); }
+  .g-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:48px; }
+  .g-card { background:var(--white); border:1px solid var(--border); border-radius:var(--radius-lg); padding:28px 24px; text-align:center; transition:border-color var(--tr),transform var(--tr); }
+  .g-card:hover { border-color:var(--gold-bdr); transform:translateY(-4px); }
+  .g-icon { font-size:2rem; margin-bottom:12px; }
+  .g-card h4 { font-size:15px; font-weight:600; margin-bottom:6px; }
+  .g-card p  { font-size:13px; color:var(--ink-soft); line-height:1.55; }
+
+  @media (max-width:1024px) { .svc-grid { grid-template-columns:repeat(2,1fr); } .g-grid { grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:600px)  { .svc-grid { grid-template-columns:1fr; } .g-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE HERO -->
+  <section class="pg-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span>Services</div>
+      <div class="tag-label reveal" style="margin-bottom:16px">Fixed Transparent Pricing</div>
+      <h1 class="display-title reveal" data-delay="100">Services &<br><span class="em">Pricing</span></h1>
+      <p class="body-large reveal" data-delay="200" style="max-width:500px;margin-top:14px">No hidden fees. No guesswork. One clear price per service — pay, and we start building.</p>
+    </div>
+  </section>
+  <div class="divider"></div>
+
+  <!-- SERVICES -->
+  <section class="section-pad">
+    <div class="container">
+      <div class="ftabs" id="ftabs">
+        <button class="ftab on" data-f="all">All Services</button>
+        <button class="ftab" data-f="web">Web</button>
+        <button class="ftab" data-f="mobile">Mobile</button>
+        <button class="ftab" data-f="design">Design</button>
+        <button class="ftab" data-f="enterprise">Enterprise</button>
+      </div>
+      <div class="svc-grid" id="svcGrid"></div>
+    </div>
+  </section>
+
+  <!-- GUARANTEE -->
+  <section class="guarantee section-pad">
+    <div class="container">
+      <div style="text-align:center">
+        <div class="tag-label reveal" style="margin:0 auto 16px">Our Promise</div>
+        <h2 class="section-title reveal" data-delay="100" style="text-align:center">Every Purchase<br><span class="em">Guaranteed</span></h2>
+      </div>
+      <div class="g-grid">
+        <div class="g-card reveal" data-delay="0"><div class="g-icon">✅</div><h4>Secure UPI Payment</h4><p>100% safe UPI-based transactions with instant confirmation via WhatsApp</p></div>
+        <div class="g-card reveal" data-delay="100"><div class="g-icon">⏱️</div><h4>On-Time Delivery</h4><p>We commit to agreed timelines and deliver exactly as promised</p></div>
+        <div class="g-card reveal" data-delay="200"><div class="g-icon">🔄</div><h4>Free Revisions</h4><p>Multiple rounds of revisions included in every service package</p></div>
+        <div class="g-card reveal" data-delay="300"><div class="g-icon">💬</div><h4>WhatsApp Support</h4><p>Direct communication with our team throughout your project</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAYMENT MODAL -->
+  <div class="modal-bd" id="payModal">
+    <div class="modal-box">
+      <div class="modal-top-bar"></div>
+      <button class="modal-close" id="mClose">×</button>
+
+      <div class="steps">
+        <div class="step-dot active" id="sd1">1</div>
+        <div class="step-line" id="sl1"></div>
+        <div class="step-dot" id="sd2">2</div>
+        <div class="step-line" id="sl2"></div>
+        <div class="step-dot" id="sd3">✓</div>
+      </div>
+
+      <!-- STEP 1 -->
+      <div class="modal-step active" id="ms1">
+        <h3 class="modal-h">Purchase Service</h3>
+        <p class="modal-sub" id="mSub">Fill in your details to proceed</p>
+        <div class="amount-pill">
+          <div class="label">Amount to Pay</div>
+          <div class="value" id="mAmt">—</div>
+          <div class="service-tag" id="mSvcTag">—</div>
+        </div>
+        <div class="fg-row">
+          <div class="fg"><label>Full Name *</label><input id="fName" type="text" placeholder="Your full name" required></div>
+          <div class="fg"><label>Mobile Number *</label><input id="fPhone" type="tel" placeholder="+91 XXXXXXXXXX" required></div>
+        </div>
+        <div class="fg"><label>Email Address *</label><input id="fEmail" type="email" placeholder="your@email.com" required></div>
+        <div class="fg"><label>Service Selected</label><input id="fSvc" type="text" readonly style="opacity:.6;cursor:default"></div>
+        <div class="fg"><label>Additional Requirements</label><textarea id="fReqs" placeholder="Describe your project needs, special features, expected timeline…"></textarea></div>
+        <button class="btn-gold" style="width:100%;justify-content:center;border:none;font-size:15px;padding:15px" onclick="goStep2()">Continue to Payment →</button>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="modal-step" id="ms2">
+        <h3 class="modal-h">Complete Payment</h3>
+        <p class="modal-sub">Send the exact amount via UPI, then enter your UTR number</p>
+        <div class="amount-pill">
+          <div class="label">Pay Exactly</div>
+          <div class="value" id="mAmt2">—</div>
+          <div class="service-tag" id="mSvcTag2">—</div>
+        </div>
+        <div class="upi-card">
+          <div style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-soft)">UPI ID</div>
+          <div class="upi-id-text">krishxav-okaxis</div>
+          <div class="upi-note">Open GPay · PhonePe · Paytm or any UPI app and pay</div>
+          <button class="copy-upi" onclick="copyUPI()">📋 Copy UPI ID</button>
+        </div>
+        <div class="upi-steps-list">
+          <div class="upi-step-item"><div class="upi-step-num">1</div><div>Open your preferred UPI app (Google Pay, PhonePe, Paytm, etc.)</div></div>
+          <div class="upi-step-item"><div class="upi-step-num">2</div><div>Pay <strong id="payAmt" style="color:var(--gold)">—</strong> to UPI ID: <strong style="color:var(--gold)">krishxav-okaxis</strong></div></div>
+          <div class="upi-step-item"><div class="upi-step-num">3</div><div>Note the UTR / Transaction Reference Number from your UPI app</div></div>
+          <div class="upi-step-item"><div class="upi-step-num">4</div><div>Enter the UTR below and click Confirm to complete your order</div></div>
+        </div>
+        <div class="fg"><label>UTR / Transaction Reference Number *</label><input id="fUTR" type="text" placeholder="12-digit UTR number (e.g. 506312849021)" maxlength="20"></div>
+        <button class="btn-gold" style="width:100%;justify-content:center;border:none;font-size:15px;padding:15px" onclick="submitUTR()">Confirm Payment & Proceed →</button>
+        <p style="font-size:12px;color:var(--ink-soft);text-align:center;margin-top:12px">You'll be redirected to WhatsApp for order confirmation</p>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="modal-step" id="ms3">
+        <div class="success-wrap">
+          <div class="success-icon">🎉</div>
+          <h3 class="modal-h">Order Confirmed!</h3>
+          <p style="color:var(--ink-mid);font-size:14.5px;margin:12px 0 24px;line-height:1.7">Your payment has been submitted. We're verifying it and will contact you shortly via WhatsApp to get started.</p>
+          <div class="confirm-table">
+            <div class="ct-row"><span class="k">Service</span><span class="v" id="cSvc">—</span></div>
+            <div class="ct-row"><span class="k">Amount Paid</span><span class="v" id="cAmt" style="color:var(--gold)">—</span></div>
+            <div class="ct-row"><span class="k">UTR Number</span><span class="v" id="cUTR">—</span></div>
+          </div>
+          <button class="btn-gold" style="width:100%;justify-content:center;border:none;font-size:15px;padding:15px" id="waBtn">Open WhatsApp →</button>
+          <p style="font-size:12px;color:var(--ink-soft);margin-top:10px">WhatsApp opens automatically in a moment…</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="shared-nav.js"></script>
+  <script>
+  const SERVICES = [
+    { id:'web',        cat:'web',        icon:'🌐', num:'01', name:'Website Development',         amount:'₹29,999',  popular:false, desc:'Blazing-fast, fully responsive website built with custom UI/UX, SEO optimisation and performance tuning.', features:['Modern responsive design','SEO optimised structure','Fast Core Web Vitals score','Custom UI/UX from scratch','CMS integration (if needed)','30 days free support post-launch'] },
+    { id:'webapp',     cat:'web',        icon:'🖥️', num:'02', name:'Web App Development',          amount:'₹64,999',  popular:true,  desc:'Full-stack web applications with dashboards, admin panels, user systems and rock-solid backend APIs.', features:['React / Next.js frontend','Secure REST API backend','Admin dashboard & panels','User authentication system','Database architecture','CI/CD & deployment setup'] },
+    { id:'mobile',     cat:'mobile',     icon:'📱', num:'03', name:'Mobile App Development',       amount:'₹89,999',  popular:false, desc:'Cross-platform Android & iOS apps with polished UI/UX, ready for Play Store publication.', features:['Android & iOS both','React Native / Flutter','Play Store submission','Push notifications','Offline mode support','Performance benchmarked'] },
+    { id:'playconsole',cat:'mobile',     icon:'🎮', num:'04', name:'Play Console Management',      amount:'₹18,999',  popular:false, desc:'End-to-end Google Play Store publishing, policy compliance review, ASO and ongoing update management.', features:['App publishing on Play Store','Policy compliance audit','Listing & ASO optimisation','Update releases managed','Console monitoring','Crash analytics setup'] },
+    { id:'qa',         cat:'web',        icon:'🧪', num:'05', name:'App Testing & QA',             amount:'₹14,999',  popular:false, desc:'Comprehensive quality assurance — manual testing, automated testing, performance and device compatibility.', features:['Manual functional testing','Automated test suite','Performance benchmarking','Cross-device compatibility','Security vulnerability scan','Detailed QA report delivered'] },
+    { id:'uiux',       cat:'design',     icon:'🎨', num:'06', name:'UI/UX Design',                 amount:'₹24,999',  popular:false, desc:'Research-driven, pixel-perfect Figma designs — from wireframes to full interactive prototypes.', features:['User research & personas','Wireframes & user flows','High-fidelity Figma prototypes','Design system creation','Interactive prototyping','Developer-ready handoff'] },
+    { id:'maintenance',cat:'web',        icon:'🔧', num:'07', name:'Website Maintenance',          amount:'₹7,999/mo', popular:false, desc:'Monthly retainer keeping your website fast, secure and up-to-date. Updates, security patches and bug fixes.', features:['Regular content updates','Security patches & monitoring','Performance optimisation','Bug fixes included','Uptime monitoring','Monthly health report'] },
+    { id:'custom',     cat:'enterprise', icon:'⚙️', num:'08', name:'Custom Software Solutions',    amount:'₹1,49,999', popular:false, desc:'Enterprise-grade custom software — CRM, ERP, SaaS platforms and complex automation systems built to scale.', features:['Requirements scoping & analysis','Scalable system architecture','CRM / ERP development','Third-party API integrations','Data migration support','Dedicated project manager'] },
+  ];
+
+  let active = 'all';
+  const grid = document.getElementById('svcGrid');
+
+  function render(filter) {
+    grid.innerHTML = '';
+    const list = filter === 'all' ? SERVICES : SERVICES.filter(s => s.cat === filter);
+    list.forEach((s, i) => {
+      const el = document.createElement('div');
+      el.className = `svc-card reveal${s.popular?' popular':''}`;
+      el.dataset.delay = String((i % 3) * 90);
+      el.innerHTML = `
+        ${s.popular ? '<div class="popular-tag">Most Popular</div>' : ''}
+        <div class="svc-num">${s.num}</div>
+        <div class="svc-icon">${s.icon}</div>
+        <h3>${s.name}</h3>
+        <div class="svc-price-box">
+          <span class="svc-amount">${s.amount}</span>
+          <div class="svc-price-note">${s.id==='maintenance'?'Billed monthly · Cancel anytime':'Fixed price · No hidden costs'}</div>
+        </div>
+        <p class="svc-desc">${s.desc}</p>
+        <div class="svc-features">${s.features.map(f=>`<div class="sf">${f}</div>`).join('')}</div>
+        <button class="buy-btn" onclick="openModal('${s.id}')"><span>Buy Service</span><span style="font-size:16px">↗</span></button>
+      `;
+      grid.appendChild(el);
+    });
+    // Re-trigger reveal
+    setTimeout(() => {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('in'), parseInt(e.target.dataset.delay||0)); obs.unobserve(e.target); } });
+      }, { threshold: 0.06, rootMargin:'0px 0px -20px 0px' });
+      grid.querySelectorAll('.svc-card.reveal').forEach(el => obs.observe(el));
+    }, 60);
+  }
+
+  document.getElementById('ftabs').addEventListener('click', e => {
+    const b = e.target.closest('.ftab'); if(!b) return;
+    document.querySelectorAll('.ftab').forEach(t => t.classList.remove('on'));
+    b.classList.add('on'); active = b.dataset.f; render(active);
+  });
+
+  render('all');
+
+  /* ── MODAL ── */
+  let cur = null;
+  const modal = document.getElementById('payModal');
+
+  function setStep(n) {
+    ['ms1','ms2','ms3'].forEach((id,i) => {
+      const el = document.getElementById(id);
+      el.classList.toggle('active', i+1 === n);
+    });
+    for(let i=1;i<=3;i++){
+      const d = document.getElementById('sd'+i);
+      d.classList.remove('active','done');
+      if(i<n){d.classList.add('done'); d.textContent='✓';}
+      else if(i===n){d.classList.add('active'); d.textContent=i;}
+      else d.textContent=i;
+    }
+    for(let i=1;i<=2;i++) document.getElementById('sl'+i).classList.toggle('done', i<n);
+  }
+
+  function openModal(id) {
+    cur = SERVICES.find(s => s.id === id);
+    if(!cur) return;
+    document.getElementById('mAmt').textContent   = cur.amount;
+    document.getElementById('mAmt2').textContent  = cur.amount;
+    document.getElementById('mSvcTag').textContent  = cur.name;
+    document.getElementById('mSvcTag2').textContent = cur.name;
+    document.getElementById('fSvc').value = cur.name;
+    document.getElementById('payAmt').textContent = cur.amount;
+    document.getElementById('mSub').textContent = `Service: ${cur.name}`;
+    setStep(1);
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() { modal.classList.remove('open'); document.body.style.overflow = ''; }
+  document.getElementById('mClose').addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if(e.target===modal) closeModal(); });
+  document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+
+  function goStep2() {
+    const name=document.getElementById('fName').value.trim();
+    const phone=document.getElementById('fPhone').value.trim();
+    const email=document.getElementById('fEmail').value.trim();
+    if(!name||!phone||!email){ showToast('⚠️ Please fill in all required fields'); return; }
+    if(!/^[\w.+-]+@[\w-]+\.\w+$/.test(email)){ showToast('⚠️ Please enter a valid email'); return; }
+    setStep(2);
+  }
+
+  function copyUPI() {
+    navigator.clipboard.writeText('krishxav-okaxis')
+      .then(()=>showToast('✅ UPI ID copied!','gold'))
+      .catch(()=>showToast('📋 UPI: krishxav-okaxis','gold'));
+  }
+
+  function submitUTR() {
+    const utr = document.getElementById('fUTR').value.trim();
+    if(!utr||utr.length<6){ showToast('⚠️ Please enter a valid UTR number'); return; }
+    const name  = document.getElementById('fName').value.trim();
+    const phone = document.getElementById('fPhone').value.trim();
+    const email = document.getElementById('fEmail').value.trim();
+    const reqs  = document.getElementById('fReqs').value.trim() || 'Not specified';
+
+    document.getElementById('cSvc').textContent = cur.name;
+    document.getElementById('cAmt').textContent = cur.amount;
+    document.getElementById('cUTR').textContent = utr;
+
+    const msg = `Hello NexCod Developers, I have purchased a service.\n\n`+
+      `Name: ${name}\nMobile: ${phone}\nEmail: ${email}\n`+
+      `Service: ${cur.name}\nAmount: ${cur.amount}\nUTR: ${utr}\n`+
+      `Requirements: ${reqs}`;
+    const wa = `https://wa.me/917319833790?text=${encodeURIComponent(msg)}`;
+
+    document.getElementById('waBtn').onclick = () => window.open(wa,'_blank');
+    setStep(3);
+    setTimeout(() => window.open(wa,'_blank'), 1800);
+  }
+  </script>
+</body>
+</html>

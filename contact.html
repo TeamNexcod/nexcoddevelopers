@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact — NexCod Developers</title>
+  <link rel="stylesheet" href="shared.css">
+  <style>
+  .pg-hero { background:var(--cream); padding:calc(var(--nav-h)+80px) 0 80px; border-bottom:1px solid var(--border); position:relative; overflow:hidden; }
+  .pg-hero::after { content:''; position:absolute; top:0; right:0; width:500px; height:100%; background:radial-gradient(ellipse at 100% 50%, rgba(184,148,74,0.07) 0%, transparent 70%); pointer-events:none; }
+
+  .contact-layout { display:grid; grid-template-columns:1fr 1.4fr; gap:64px; align-items:start; }
+
+  /* Info panel */
+  .ci-panel { display:flex; flex-direction:column; gap:20px; }
+  .avail-badge {
+    display:flex; align-items:center; gap:10px;
+    padding:14px 20px; border-radius:var(--radius-md);
+    background:rgba(22,163,74,0.06); border:1px solid rgba(22,163,74,0.2);
+    font-size:14px; font-weight:500;
+  }
+  .av-dot { width:8px; height:8px; border-radius:50%; background:var(--green); animation:avPulse 2s infinite; flex-shrink:0; }
+  @keyframes avPulse { 0%,100%{box-shadow:0 0 0 0 rgba(22,163,74,0.5)} 50%{box-shadow:0 0 0 8px rgba(22,163,74,0)} }
+  .ci-card { background:var(--cream); border:1px solid var(--border); border-radius:var(--radius-lg); padding:24px 28px; display:flex; gap:16px; align-items:flex-start; transition:border-color var(--tr), transform var(--tr); }
+  .ci-card:hover { border-color:var(--gold-bdr); transform:translateX(4px); }
+  .ci-ico { width:48px; height:48px; flex-shrink:0; background:var(--white); border:1px solid var(--border); border-radius:var(--radius-sm); display:flex; align-items:center; justify-content:center; font-size:20px; }
+  .ci-lbl { font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold); margin-bottom:4px; }
+  .ci-val { font-size:15px; font-weight:500; margin-bottom:4px; }
+  .ci-val a { color:var(--ink); transition:color var(--tr-fast); }
+  .ci-val a:hover { color:var(--gold); }
+  .ci-note { font-size:12.5px; color:var(--ink-soft); }
+
+  /* Form */
+  .cform-wrap {
+    background:var(--white); border:1px solid var(--border); border-radius:var(--radius-xl);
+    padding:48px; box-shadow:var(--shadow-md); position:relative; overflow:hidden;
+  }
+  .cform-wrap::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg,var(--gold-dark),var(--gold-xlight),var(--gold-dark)); }
+  .cform-wrap h3 { font-family:var(--font-serif); font-size:1.5rem; font-weight:700; margin-bottom:6px; }
+  .cform-wrap > p { font-size:14px; color:var(--ink-soft); margin-bottom:28px; }
+
+  /* Service selector grid */
+  .svc-sel-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:20px; }
+  .ssg {
+    padding:11px 8px; text-align:center; border:1.5px solid var(--border);
+    border-radius:var(--radius-sm); font-size:12px; font-weight:600;
+    cursor:pointer; background:var(--cream);
+    transition:border-color var(--tr-fast), background var(--tr-fast), color var(--tr-fast);
+  }
+  .ssg:hover { border-color:var(--gold-bdr); background:var(--gold-bg); color:var(--gold); }
+  .ssg.sel  { border-color:var(--gold); background:var(--gold-bg); color:var(--gold); }
+  .ssg em   { display:block; font-style:normal; font-size:18px; margin-bottom:4px; }
+
+  .csubmit {
+    width:100%; padding:15px;
+    background:var(--ink); color:var(--white);
+    font-size:15px; font-weight:700; letter-spacing:0.03em;
+    border-radius:var(--radius-sm); border:none; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    position:relative; overflow:hidden;
+    transition:transform var(--tr), box-shadow var(--tr);
+  }
+  .csubmit::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,var(--gold),var(--gold-dark)); transform:scaleX(0); transform-origin:right; transition:transform 0.45s var(--ease-out); z-index:0; }
+  .csubmit:hover { transform:translateY(-2px); box-shadow:var(--shadow-gold); }
+  .csubmit:hover::after { transform:scaleX(1); transform-origin:left; }
+  .csubmit span { position:relative; z-index:1; }
+
+  /* FAQ */
+  .faq { max-width:800px; margin:0 auto; }
+  .faq-item { border:1px solid var(--border); border-radius:var(--radius-md); overflow:hidden; margin-bottom:12px; background:var(--white); }
+  .faq-q { padding:18px 24px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-size:15px; font-weight:500; transition:color var(--tr-fast); }
+  .faq-q:hover { color:var(--gold); }
+  .faq-ic { color:var(--gold); font-size:20px; transition:transform var(--tr); flex-shrink:0; line-height:1; }
+  .faq-item.open .faq-ic { transform:rotate(45deg); }
+  .faq-a { padding:0 24px; font-size:14px; color:var(--ink-soft); line-height:1.75; max-height:0; overflow:hidden; transition:max-height 0.45s var(--ease-out), padding 0.3s; }
+  .faq-item.open .faq-a { max-height:200px; padding-bottom:20px; }
+
+  @media (max-width:1024px) { .contact-layout { grid-template-columns:1fr; gap:40px; } }
+  @media (max-width:600px)  { .svc-sel-grid { grid-template-columns:repeat(2,1fr); } .cform-wrap { padding:32px 20px; } }
+  </style>
+</head>
+<body>
+
+  <section class="pg-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span>Contact</div>
+      <div class="tag-label reveal" style="margin-bottom:16px">Get in Touch</div>
+      <h1 class="display-title reveal" data-delay="100">Let's Build<br><span class="em">Together</span></h1>
+      <p class="body-large reveal" data-delay="200" style="max-width:520px;margin-top:14px">Have a project in mind? Tell us about it. We respond within 24 hours with a clear plan and honest pricing.</p>
+    </div>
+  </section>
+  <div class="divider"></div>
+
+  <section class="section-pad">
+    <div class="container">
+      <div class="contact-layout">
+
+        <!-- LEFT -->
+        <div class="ci-panel">
+          <div class="avail-badge reveal"><div class="av-dot"></div>We're available for new projects right now</div>
+
+          <div class="ci-card reveal" data-delay="0">
+            <div class="ci-ico">📧</div>
+            <div>
+              <div class="ci-lbl">Email</div>
+              <div class="ci-val"><a href="mailto:nexcod.developer@gmail.com">nexcod.developer@gmail.com</a></div>
+              <div class="ci-note">We reply within 24 hours</div>
+            </div>
+          </div>
+
+          <div class="ci-card reveal" data-delay="100">
+            <div class="ci-ico">💬</div>
+            <div>
+              <div class="ci-lbl">WhatsApp</div>
+              <div class="ci-val"><a href="https://wa.me/917319833790" target="_blank">+91 7319833790</a></div>
+              <div class="ci-note">Quickest response via WhatsApp</div>
+            </div>
+          </div>
+
+          <div class="ci-card reveal" data-delay="200">
+            <div class="ci-ico">🕐</div>
+            <div>
+              <div class="ci-lbl">Working Hours</div>
+              <div class="ci-val">Mon – Sat, 9AM – 7PM IST</div>
+              <div class="ci-note">Urgent? WhatsApp us anytime</div>
+            </div>
+          </div>
+
+          <div class="ci-card reveal" data-delay="300">
+            <div class="ci-ico">📍</div>
+            <div>
+              <div class="ci-lbl">Location</div>
+              <div class="ci-val">India (Serving Globally)</div>
+              <div class="ci-note">Remote-first with clients worldwide</div>
+            </div>
+          </div>
+
+          <div style="background:var(--cream);border:1px solid var(--gold-bdr);border-radius:var(--radius-lg);padding:24px" class="reveal" data-delay="400">
+            <h4 style="font-family:var(--font-serif);font-size:1rem;font-weight:700;margin-bottom:6px">Buy a Service Directly</h4>
+            <p style="font-size:13px;color:var(--ink-soft);margin-bottom:16px">Know what you need? Purchase directly with fixed transparent pricing.</p>
+            <a href="services.html" class="btn-gold" style="width:100%;justify-content:center">Browse Services & Pricing ↗</a>
+          </div>
+        </div>
+
+        <!-- RIGHT: Form -->
+        <div class="cform-wrap reveal-right">
+          <h3>Send Us a Message</h3>
+          <p>We'll send your enquiry straight to our team and reply within 24 hours.</p>
+
+          <form id="cForm">
+            <div class="fg-row">
+              <div class="fg"><label>Full Name *</label><input type="text" id="cn" placeholder="Your full name" required></div>
+              <div class="fg"><label>Mobile Number *</label><input type="tel" id="cp" placeholder="+91 XXXXXXXXXX" required></div>
+            </div>
+            <div class="fg"><label>Email Address *</label><input type="email" id="ce" placeholder="your@email.com" required></div>
+            <div class="fg"><label>Company / Brand</label><input type="text" id="cc" placeholder="Company name (optional)"></div>
+
+            <div class="fg" style="gap:10px">
+              <label>Service You're Interested In</label>
+              <div class="svc-sel-grid" id="ssg">
+                <div class="ssg" data-s="Website Development"><em>🌐</em>Website</div>
+                <div class="ssg" data-s="Web App Development"><em>🖥️</em>Web App</div>
+                <div class="ssg" data-s="Mobile App Development"><em>📱</em>Mobile App</div>
+                <div class="ssg" data-s="UI/UX Design"><em>🎨</em>UI/UX Design</div>
+                <div class="ssg" data-s="Custom Software"><em>⚙️</em>Custom Software</div>
+                <div class="ssg" data-s="Other"><em>💬</em>Other / Not Sure</div>
+              </div>
+              <input type="hidden" id="cs" value="">
+            </div>
+
+            <div class="fg">
+              <label>Budget Range</label>
+              <select id="cb">
+                <option value="">Select your approximate budget</option>
+                <option>Under ₹25,000</option>
+                <option>₹25,000 – ₹75,000</option>
+                <option>₹75,000 – ₹2,00,000</option>
+                <option>₹2,00,000 – ₹5,00,000</option>
+                <option>₹5,00,000+</option>
+              </select>
+            </div>
+
+            <div class="fg"><label>Project Description *</label><textarea id="cm" rows="5" placeholder="Tell us what you want to build — key features, timeline, any specific requirements…" required></textarea></div>
+
+            <button type="button" class="csubmit" onclick="handleSend()">
+              <span id="btnTxt">Send Message</span>
+              <span style="font-size:16px">↗</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section style="background:var(--cream);border-top:1px solid var(--border)" class="section-pad">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:48px">
+        <div class="tag-label reveal" style="margin:0 auto 16px">FAQ</div>
+        <h2 class="section-title reveal" data-delay="100" style="text-align:center">Common <span class="em">Questions</span></h2>
+      </div>
+      <div class="faq reveal" data-delay="200">
+        <div class="faq-item"><div class="faq-q">How long does a typical project take? <span class="faq-ic">+</span></div><div class="faq-a">It depends on scope. A basic website: 7–14 days. A full web app: 4–8 weeks. Mobile apps: 6–12 weeks. We provide a detailed timeline in our proposal before work begins.</div></div>
+        <div class="faq-item"><div class="faq-q">What is your payment process? <span class="faq-ic">+</span></div><div class="faq-a">We work on milestone-based payments — typically 40% to start, 30% at mid-project, 30% on delivery. All payments via UPI for full transparency and instant confirmation.</div></div>
+        <div class="faq-item"><div class="faq-q">Do you provide post-launch support? <span class="faq-ic">+</span></div><div class="faq-a">Yes. Every project includes 30 days free post-launch support for bug fixes. After that, opt into our monthly maintenance retainer starting at ₹7,999/month.</div></div>
+        <div class="faq-item"><div class="faq-q">Can I see examples of similar work? <span class="faq-ic">+</span></div><div class="faq-a">Absolutely. Visit our Portfolio page for selected projects. For specific similar work, contact us and we'll share relevant case studies confidentially.</div></div>
+        <div class="faq-item"><div class="faq-q">How do I start a project with NexCod? <span class="faq-ic">+</span></div><div class="faq-a">Fill out the contact form or WhatsApp us at +91 7319833790. We'll schedule a free discovery call, understand your requirements, and send a detailed proposal in 24 hours.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <script src="shared-nav.js"></script>
+  <script>
+    // Service selector
+    document.getElementById('ssg').addEventListener('click', e => {
+      const item = e.target.closest('.ssg'); if(!item) return;
+      document.querySelectorAll('.ssg').forEach(i=>i.classList.remove('sel'));
+      item.classList.add('sel');
+      document.getElementById('cs').value = item.dataset.s;
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-q').forEach(q => {
+      q.addEventListener('click', () => {
+        const item = q.closest('.faq-item');
+        const open = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+        if(!open) item.classList.add('open');
+      });
+    });
+
+    // Form submit — mailto to nexcod.developer@gmail.com
+    function handleSend() {
+      const name    = document.getElementById('cn').value.trim();
+      const phone   = document.getElementById('cp').value.trim();
+      const email   = document.getElementById('ce').value.trim();
+      const company = document.getElementById('cc').value.trim() || 'Not provided';
+      const service = document.getElementById('cs').value || 'Not specified';
+      const budget  = document.getElementById('cb').value || 'Not specified';
+      const msg     = document.getElementById('cm').value.trim();
+
+      if(!name||!phone||!email||!msg){ showToast('⚠️ Please fill in all required fields.'); return; }
+      if(!/^[\w.+-]+@[\w-]+\.\w+$/.test(email)){ showToast('⚠️ Please enter a valid email address.'); return; }
+
+      const subject = `Project Enquiry from ${name} — NexCod Developers`;
+      const body =
+        `Hello NexCod Developers,\n\n` +
+        `I would like to discuss a project.\n\n` +
+        `--- CONTACT DETAILS ---\n` +
+        `Name: ${name}\n` +
+        `Mobile: ${phone}\n` +
+        `Email: ${email}\n` +
+        `Company: ${company}\n\n` +
+        `--- PROJECT DETAILS ---\n` +
+        `Service: ${service}\n` +
+        `Budget: ${budget}\n\n` +
+        `Description:\n${msg}\n\n` +
+        `Looking forward to hearing from you.\n${name}`;
+
+      const btn = document.querySelector('.csubmit');
+      document.getElementById('btnTxt').textContent = 'Opening Mail…';
+      btn.disabled = true;
+
+      // Open mailto — redirects to email client with nexcod.developer@gmail.com
+      window.location.href = `mailto:nexcod.developer@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+      setTimeout(() => {
+        document.getElementById('btnTxt').textContent = 'Send Message';
+        btn.disabled = false;
+        document.getElementById('cForm').reset();
+        document.querySelectorAll('.ssg').forEach(i=>i.classList.remove('sel'));
+        showToast('✅ Email client opened! Your message has been prepared.', 'gold');
+      }, 2000);
+    }
+  </script>
+</body>
+</html>

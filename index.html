@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NexCod Developers — Engineering the Future</title>
+  <meta name="description" content="NexCod Developers — Premium software studio. 10,000+ projects. Web, Mobile, Custom Software.">
+  <link rel="stylesheet" href="shared.css">
+  <style>
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh; padding-top: var(--nav-h);
+    background: var(--white);
+    display: flex; flex-direction: column;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 30%, rgba(184,148,74,0.07) 0%, transparent 100%),
+      radial-gradient(ellipse 40% 40% at 10% 80%, rgba(184,148,74,0.04) 0%, transparent 100%);
+    pointer-events: none;
+  }
+  /* Animated grid */
+  .hero-grid {
+    position: absolute; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(rgba(184,148,74,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(184,148,74,0.05) 1px, transparent 1px);
+    background-size: 72px 72px;
+    animation: gridShift 20s ease-in-out infinite;
+  }
+  @keyframes gridShift {
+    0%,100%{ background-position: 0 0; }
+    50%{ background-position: 10px 10px; }
+  }
+  /* Floating orbs */
+  .orb {
+    position: absolute; border-radius: 50%;
+    filter: blur(80px); opacity: 0.35; pointer-events: none;
+    animation: orbDrift 12s ease-in-out infinite;
+  }
+  .orb-1 { width: 400px; height: 400px; background: radial-gradient(circle, #e8c87820, transparent 70%); top: 10%; right: 5%; animation-delay: 0s; }
+  .orb-2 { width: 300px; height: 300px; background: radial-gradient(circle, #b8944a15, transparent 70%); bottom: 20%; left: 10%; animation-delay: -5s; }
+  @keyframes orbDrift { 0%,100%{transform:translate(0,0)} 33%{transform:translate(30px,-20px)} 66%{transform:translate(-20px,25px)} }
+
+  .hero-inner {
+    position: relative; z-index: 1;
+    max-width: 1220px; margin: 0 auto; padding: 0 48px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+    flex: 1; padding-top: 80px; padding-bottom: 80px;
+  }
+
+  /* LEFT */
+  .hero-left { display: flex; flex-direction: column; gap: 28px; }
+  .hero-kicker {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold);
+    padding: 8px 18px;
+    border: 1px solid var(--gold-bdr);
+    border-radius: var(--radius-pill);
+    background: var(--gold-bg);
+    width: fit-content;
+  }
+  .kicker-pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: kPulse 2s ease-in-out infinite; }
+  @keyframes kPulse { 0%,100%{box-shadow:0 0 0 0 rgba(22,163,74,0.5)} 50%{box-shadow:0 0 0 7px rgba(22,163,74,0)} }
+
+  .hero-headline {
+    font-family: var(--font-serif);
+    font-size: clamp(3rem, 5.5vw, 5.2rem);
+    font-weight: 900; line-height: 1.02;
+    letter-spacing: -0.03em; color: var(--ink);
+  }
+  .hero-headline .italic { font-style: italic; color: var(--gold); }
+  .hero-headline .outline {
+    -webkit-text-stroke: 1.5px var(--ink);
+    color: transparent;
+  }
+
+  .hero-desc { font-size: 1.08rem; color: var(--ink-mid); line-height: 1.8; max-width: 480px; }
+  .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .hero-trust {
+    display: flex; align-items: center; gap: 20px;
+    padding-top: 24px; border-top: 1px solid var(--border);
+  }
+  .trust-avatars { display: flex; }
+  .ta {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 2px solid var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: var(--white);
+    margin-left: -10px;
+  }
+  .ta:first-child { margin-left: 0; }
+  .ta-1{background:#b8944a} .ta-2{background:#1e1e1e} .ta-3{background:#8a6d2f} .ta-4{background:#5a5a5a}
+  .trust-text strong { display: block; font-size: 14px; font-weight: 700; }
+  .trust-text span { font-size: 12px; color: var(--ink-soft); }
+
+  /* RIGHT — Floating card */
+  .hero-right { position: relative; }
+  .hero-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 40px;
+    box-shadow: var(--shadow-xl);
+    position: relative; overflow: hidden;
+    animation: heroCardFloat 6s ease-in-out infinite;
+  }
+  @keyframes heroCardFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+  .hero-card-top {
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold-xlight), var(--gold-dark));
+  }
+  .hc-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; margin-bottom: 20px; }
+  .hc-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+  .hc-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 14px; font-weight: 500;
+    transition: transform var(--tr), border-color var(--tr), box-shadow var(--tr);
+    cursor: default;
+  }
+  .hc-item:hover { transform: translateX(6px); border-color: var(--gold-bdr); box-shadow: var(--shadow-sm); }
+  .hc-icon { font-size: 18px; flex-shrink: 0; }
+  .hc-name { flex: 1; }
+  .hc-price { font-size: 12px; color: var(--gold); font-weight: 700; }
+  .hc-bottom {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 20px; border-top: 1px solid var(--border);
+  }
+  .hc-stat strong { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; color: var(--gold); display: block; }
+  .hc-stat span { font-size: 11px; color: var(--ink-soft); }
+
+  /* Float badges */
+  .hero-badge {
+    position: absolute;
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    padding: 10px 18px;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 600;
+    box-shadow: var(--shadow-md);
+    white-space: nowrap;
+    animation: badgeFloat 5s ease-in-out infinite;
+  }
+  .hero-badge-1 { top: -16px; left: -28px; animation-delay: 0s; }
+  .hero-badge-2 { bottom: 40px; right: -20px; animation-delay: -2s; }
+  @keyframes badgeFloat { 0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(-10px) rotate(1deg)} }
+
+  /* ── STATS STRIP ── */
+  .stats-strip {
+    background: var(--ink);
+    padding: 56px 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .stats-strip::before {
+    content:''; position:absolute; inset:0;
+    background: radial-gradient(ellipse at 50% 50%, rgba(184,148,74,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(4,1fr);
+    gap: 0;
+    position: relative; z-index: 1;
+  }
+  .stat-item { text-align: center; padding: 20px 40px; position: relative; }
+  .stat-item + .stat-item::before {
+    content: ''; position: absolute; left: 0; top: 20%; bottom: 20%;
+    width: 1px; background: rgba(255,255,255,0.1);
+  }
+  .stat-num {
+    font-family: var(--font-serif);
+    font-size: clamp(2.4rem, 4vw, 3.8rem);
+    font-weight: 900; line-height: 1;
+    color: var(--gold-xlight); display: block;
+    letter-spacing: -0.03em;
+  }
+  .stat-label { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 6px; font-weight: 500; }
+
+  /* ── MARQUEE ── */
+  .marquee-wrap {
+    background: var(--cream-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    padding: 18px 0; overflow: hidden;
+  }
+  .marquee-track { display: flex; gap: 48px; width: max-content; animation: scroll 30s linear infinite; }
+  .marquee-wrap:hover .marquee-track { animation-play-state: paused; }
+  .marquee-item { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--ink-mid); white-space: nowrap; letter-spacing: 0.04em; }
+  .marquee-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); }
+  @keyframes scroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+  /* ── SERVICES PREVIEW ── */
+  .services-preview { background: var(--cream); }
+  .sp-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 56px; gap: 40px; }
+  .sp-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+  .sp-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 36px;
+    position: relative; overflow: hidden;
+    transition: transform var(--tr), border-color var(--tr), box-shadow var(--tr);
+  }
+  .sp-card::before {
+    content:''; position:absolute; bottom:0; left:0; right:0; height:3px;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold-xlight));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.5s var(--ease-out);
+  }
+  .sp-card:hover { transform: translateY(-8px); border-color: var(--gold-bdr); box-shadow: var(--shadow-lg); }
+  .sp-card:hover::before { transform: scaleX(1); }
+  .sp-icon {
+    width: 56px; height: 56px; border-radius: var(--radius-md);
+    background: var(--cream); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; margin-bottom: 20px;
+    transition: background var(--tr), border-color var(--tr);
+  }
+  .sp-card:hover .sp-icon { background: var(--gold-bg); border-color: var(--gold-bdr); }
+  .sp-num { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink-faint); margin-bottom: 6px; }
+  .sp-card h3 { font-family: var(--font-serif); font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; }
+  .sp-card p { font-size: 14px; color: var(--ink-soft); line-height: 1.65; margin-bottom: 20px; }
+  .sp-price { font-size: 1rem; font-weight: 700; color: var(--gold); }
+  .sp-arrow {
+    position: absolute; top: 28px; right: 28px;
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-faint); font-size: 14px;
+    transition: background var(--tr), color var(--tr), border-color var(--tr), transform var(--tr);
+  }
+  .sp-card:hover .sp-arrow { background: var(--ink); color: var(--white); border-color: var(--ink); transform: rotate(45deg); }
+
+  /* ── WHY US ── */
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .why-img {
+    background: var(--cream); border: 1px solid var(--border);
+    border-radius: var(--radius-xl); padding: 48px;
+    display: flex; flex-direction: column; gap: 20px;
+    position: relative; overflow: hidden;
+  }
+  .why-img::before {
+    content:''; position:absolute; top:0; right:0; width:200px; height:200px;
+    background: radial-gradient(circle, rgba(184,148,74,0.1) 0%, transparent 70%);
+  }
+  .why-metric {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: var(--radius-md); padding: 24px 28px;
+    display: flex; align-items: center; gap: 16px;
+    transition: border-color var(--tr);
+  }
+  .why-metric:hover { border-color: var(--gold-bdr); }
+  .wm-icon { font-size: 2rem; flex-shrink: 0; }
+  .wm-val { font-family: var(--font-serif); font-size: 1.8rem; font-weight: 700; color: var(--ink); }
+  .wm-label { font-size: 13px; color: var(--ink-soft); }
+
+  .why-points { display: flex; flex-direction: column; gap: 16px; margin-top: 28px; }
+  .wp {
+    display: flex; gap: 16px; align-items: flex-start;
+    padding: 20px 24px;
+    background: var(--cream); border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    transition: border-color var(--tr), transform var(--tr), box-shadow var(--tr);
+  }
+  .wp:hover { border-color: var(--gold-bdr); transform: translateX(6px); box-shadow: var(--shadow-sm); }
+  .wp-icon {
+    width: 44px; height: 44px; flex-shrink: 0;
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    transition: background var(--tr), border-color var(--tr);
+  }
+  .wp:hover .wp-icon { background: var(--gold-bg); border-color: var(--gold-bdr); }
+  .wp-txt h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .wp-txt p  { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+
+  /* ── TECH STACK ── */
+  .tech-section { background: var(--cream); }
+  .tech-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 16px; margin-top: 48px; }
+  .tech-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: var(--radius-md); padding: 22px 12px;
+    text-align: center; font-size: 13px; font-weight: 600; color: var(--ink-mid);
+    transition: border-color var(--tr), color var(--tr), transform var(--tr), box-shadow var(--tr);
+  }
+  .tech-card:hover { border-color: var(--gold-bdr); color: var(--ink); transform: translateY(-4px); box-shadow: var(--shadow-md); }
+  .tech-card div { font-size: 28px; margin-bottom: 10px; }
+
+  /* ── PROCESS ── */
+  .process-section { background: var(--ink); color: var(--white); overflow: hidden; position: relative; }
+  .process-section::before {
+    content:''; position:absolute; inset:0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(184,148,74,0.08) 0%, transparent 60%);
+  }
+  .process-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 0; margin-top: 64px; position: relative; z-index: 1; }
+  .process-grid::before {
+    content:''; position:absolute; top:36px; left:10%; right:10%; height:1px;
+    background: linear-gradient(90deg, transparent, rgba(184,148,74,0.3), transparent);
+  }
+  .proc-step { text-align: center; padding: 0 16px; }
+  .proc-num {
+    width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 20px;
+    background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-serif); font-size: 1.2rem; font-weight: 700; color: var(--gold-xlight);
+    position: relative; z-index: 1;
+    transition: background var(--tr), border-color var(--tr), box-shadow var(--tr);
+  }
+  .proc-step:hover .proc-num { background: rgba(184,148,74,0.15); border-color: var(--gold); box-shadow: 0 0 30px rgba(184,148,74,0.2); }
+  .proc-step h4 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .proc-step p  { font-size: 12.5px; color: rgba(255,255,255,0.45); line-height: 1.55; }
+
+  /* ── CTA BANNER ── */
+  .cta-section {
+    background: var(--cream); position: relative; overflow: hidden;
+    text-align: center; padding: 120px 0;
+  }
+  .cta-section::before {
+    content:''; position:absolute; inset:0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(184,148,74,0.08) 0%, transparent 60%);
+  }
+  .cta-inner { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; padding: 0 48px; }
+  .cta-inner h2 { font-family: var(--font-serif); font-size: clamp(2.4rem,4.5vw,4rem); font-weight: 900; letter-spacing: -0.03em; margin-bottom: 16px; }
+  .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 36px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 60px; padding-top: 60px; }
+    .hero-right { display: none; }
+    .sp-grid { grid-template-columns: repeat(2,1fr); }
+    .why-grid { grid-template-columns: 1fr; }
+    .tech-grid { grid-template-columns: repeat(4,1fr); }
+    .process-grid { grid-template-columns: repeat(3,1fr); row-gap: 40px; }
+    .process-grid::before { display: none; }
+    .stats-grid { grid-template-columns: repeat(2,1fr); }
+  }
+  @media (max-width: 768px) {
+    .hero-inner { padding: 48px 20px; }
+    .sp-grid { grid-template-columns: 1fr; }
+    .sp-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .tech-grid { grid-template-columns: repeat(3,1fr); }
+    .process-grid { grid-template-columns: repeat(2,1fr); }
+    .hero-trust { flex-wrap: wrap; gap: 14px; }
+  }
+  @media (max-width: 480px) {
+    .tech-grid { grid-template-columns: repeat(2,1fr); }
+    .hero-btns { flex-direction: column; }
+    .cta-inner { padding: 0 20px; }
+  }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-kicker reveal" data-delay="0">
+          <span class="kicker-pulse"></span>
+          10,000+ Projects Delivered
+        </div>
+        <h1 class="hero-headline reveal" data-delay="100">
+          We <span class="italic">Build</span><br>
+          Digital Products<br>
+          That <span class="outline">Endure.</span>
+        </h1>
+        <p class="hero-desc reveal" data-delay="200">
+          NexCod Developers is a premium software studio crafting world-class web apps, mobile applications and enterprise systems. Trusted by 48+ clients. Established 2019.
+        </p>
+        <div class="hero-btns reveal" data-delay="300">
+          <a href="services.html" class="btn-gold"><span>Explore Services</span>↗</a>
+          <a href="portfolio.html" class="btn-outline">View Our Work</a>
+        </div>
+        <div class="hero-trust reveal" data-delay="400">
+          <div class="trust-avatars">
+            <div class="ta ta-1">NK</div>
+            <div class="ta ta-2">VS</div>
+            <div class="ta ta-3">KD</div>
+            <div class="ta ta-4">+</div>
+          </div>
+          <div class="trust-text">
+            <strong>48+ Happy Clients</strong>
+            <span>5-star average satisfaction</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-badge hero-badge-1 reveal-scale" data-delay="500">⚡ Lightning Fast Delivery</div>
+        <div class="hero-card reveal-scale" data-delay="400">
+          <div class="hero-card-top"></div>
+          <div class="hc-label">Our Services</div>
+          <div class="hc-list">
+            <div class="hc-item"><span class="hc-icon">🌐</span><span class="hc-name">Website Development</span><span class="hc-price">₹29,999</span></div>
+            <div class="hc-item"><span class="hc-icon">📱</span><span class="hc-name">Mobile App</span><span class="hc-price">₹89,999</span></div>
+            <div class="hc-item"><span class="hc-icon">🖥️</span><span class="hc-name">Web App</span><span class="hc-price">₹64,999</span></div>
+            <div class="hc-item"><span class="hc-icon">🎨</span><span class="hc-name">UI/UX Design</span><span class="hc-price">₹24,999</span></div>
+          </div>
+          <div class="hc-bottom">
+            <div class="hc-stat">
+              <strong><span class="counter" data-target="10000">0</span>+</strong>
+              <span>Projects Done</span>
+            </div>
+            <a href="services.html" class="btn-primary"><span>See Pricing</span></a>
+          </div>
+        </div>
+        <div class="hero-badge hero-badge-2 reveal-scale" data-delay="600">🏆 Premium Quality</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS STRIP -->
+  <div class="stats-strip">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item reveal" data-delay="0">
+          <span class="stat-num"><span class="counter" data-target="10000">0</span>+</span>
+          <div class="stat-label">Projects Delivered</div>
+        </div>
+        <div class="stat-item reveal" data-delay="100">
+          <span class="stat-num"><span class="counter" data-target="48">0</span>+</span>
+          <div class="stat-label">Happy Clients</div>
+        </div>
+        <div class="stat-item reveal" data-delay="200">
+          <span class="stat-num"><span class="counter" data-target="6">0</span>+</span>
+          <div class="stat-label">Years of Excellence</div>
+        </div>
+        <div class="stat-item reveal" data-delay="300">
+          <span class="stat-num"><span class="counter" data-target="99">0</span>%</span>
+          <div class="stat-label">Client Satisfaction</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track" id="mtrack"></div>
+  </div>
+
+  <!-- SERVICES PREVIEW -->
+  <section class="services-preview section-pad" id="services">
+    <div class="container">
+      <div class="sp-header">
+        <div>
+          <div class="tag-label reveal">What We Build</div>
+          <h2 class="section-title reveal" data-delay="100">Premium <span class="em">Services</span></h2>
+        </div>
+        <a href="services.html" class="btn-text reveal" data-delay="200">View all services →</a>
+      </div>
+      <div class="sp-grid">
+        <div class="sp-card reveal" data-delay="0"><div class="sp-arrow">→</div><div class="sp-num">01</div><div class="sp-icon">🌐</div><h3>Website Development</h3><p>Blazing-fast, responsive websites with custom UI/UX and SEO optimisation.</p><div class="sp-price">₹29,999</div></div>
+        <div class="sp-card reveal" data-delay="80"><div class="sp-arrow">→</div><div class="sp-num">02</div><div class="sp-icon">🖥️</div><h3>Web App Development</h3><p>Full-stack applications, dashboards and admin panels with secure APIs.</p><div class="sp-price">₹64,999</div></div>
+        <div class="sp-card reveal" data-delay="160"><div class="sp-arrow">→</div><div class="sp-num">03</div><div class="sp-icon">📱</div><h3>Mobile App Development</h3><p>Cross-platform iOS & Android apps — Play Store ready.</p><div class="sp-price">₹89,999</div></div>
+        <div class="sp-card reveal" data-delay="0"><div class="sp-arrow">→</div><div class="sp-num">04</div><div class="sp-icon">🎨</div><h3>UI/UX Design</h3><p>Pixel-perfect Figma designs, wireframes and complete design systems.</p><div class="sp-price">₹24,999</div></div>
+        <div class="sp-card reveal" data-delay="80"><div class="sp-arrow">→</div><div class="sp-num">05</div><div class="sp-icon">🧪</div><h3>App Testing & QA</h3><p>Full QA suite — bug testing, performance and device compatibility.</p><div class="sp-price">₹14,999</div></div>
+        <div class="sp-card reveal" data-delay="160" style="background:var(--ink);color:var(--white);border-color:var(--ink)"><div style="font-size:2rem;margin-bottom:12px">💼</div><h3>Custom Software</h3><p style="color:rgba(255,255,255,0.6)">Enterprise CRM, ERP and fully custom scalable solutions.</p><div style="margin-top:20px"><a href="services.html" class="btn-gold" style="width:100%;justify-content:center">View All ↗</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- WHY US -->
+  <section class="section-pad" id="about">
+    <div class="container">
+      <div class="why-grid">
+        <div class="why-img reveal-left">
+          <div class="tag-label" style="margin-bottom:12px">By the Numbers</div>
+          <div class="why-metric"><span class="wm-icon">🚀</span><div><div class="wm-val"><span class="counter" data-target="10000">0</span>+</div><div class="wm-label">Projects Delivered</div></div></div>
+          <div class="why-metric"><span class="wm-icon">🌍</span><div><div class="wm-val"><span class="counter" data-target="48">0</span>+</div><div class="wm-label">Global Clients</div></div></div>
+          <div class="why-metric"><span class="wm-icon">👥</span><div><div class="wm-val"><span class="counter" data-target="30">0</span>+</div><div class="wm-label">Team Members</div></div></div>
+          <div class="why-metric"><span class="wm-icon">⭐</span><div><div class="wm-val">5.0</div><div class="wm-label">Average Client Rating</div></div></div>
+        </div>
+        <div class="reveal-right">
+          <div class="tag-label" style="margin-bottom:16px">Why NexCod</div>
+          <h2 class="section-title" style="margin-bottom:8px">Built Different.<br><span class="em">Delivered Better.</span></h2>
+          <p class="body-large" style="margin-bottom:32px">We combine elite engineering talent with exceptional design sensibility to produce software that doesn't just function — it delights.</p>
+          <div class="why-points">
+            <div class="wp" data-delay="0"><div class="wp-icon">⚡</div><div class="wp-txt"><h4>Sprint-Based Delivery</h4><p>Rapid, focused development cycles that ship your product faster without cutting corners.</p></div></div>
+            <div class="wp" data-delay="100"><div class="wp-icon">🔒</div><div class="wp-txt"><h4>Enterprise-Grade Security</h4><p>Security-first engineering baked in from day one on every project we build.</p></div></div>
+            <div class="wp" data-delay="200"><div class="wp-icon">📈</div><div class="wp-txt"><h4>Scales With You</h4><p>Architecture designed to handle growth from 100 to 10 million users seamlessly.</p></div></div>
+            <div class="wp" data-delay="300"><div class="wp-icon">💬</div><div class="wp-txt"><h4>Total Transparency</h4><p>Clear timelines, honest pricing, weekly updates. No surprises, ever.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH STACK -->
+  <section class="tech-section section-pad">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:0">
+        <div class="tag-label reveal" style="margin:0 auto 16px">Stack</div>
+        <h2 class="section-title reveal" data-delay="100" style="text-align:center">Technologies We <span class="em">Master</span></h2>
+      </div>
+      <div class="tech-grid">
+        <div class="tech-card reveal" data-delay="0"><div>⚛️</div>React.js</div>
+        <div class="tech-card reveal" data-delay="50"><div>▲</div>Next.js</div>
+        <div class="tech-card reveal" data-delay="100"><div>🟩</div>Node.js</div>
+        <div class="tech-card reveal" data-delay="150"><div>🐍</div>Python</div>
+        <div class="tech-card reveal" data-delay="200"><div>📱</div>React Native</div>
+        <div class="tech-card reveal" data-delay="250"><div>💙</div>Flutter</div>
+        <div class="tech-card reveal" data-delay="50"><div>🍃</div>MongoDB</div>
+        <div class="tech-card reveal" data-delay="100"><div>🐘</div>PostgreSQL</div>
+        <div class="tech-card reveal" data-delay="150"><div>☁️</div>AWS</div>
+        <div class="tech-card reveal" data-delay="200"><div>🐳</div>Docker</div>
+        <div class="tech-card reveal" data-delay="250"><div>🎨</div>Figma</div>
+        <div class="tech-card reveal" data-delay="300"><div>🔥</div>Firebase</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process-section section-pad">
+    <div class="container">
+      <div style="text-align:center;position:relative;z-index:1">
+        <div class="tag-label reveal" style="margin:0 auto 16px;border-color:rgba(184,148,74,0.4)">Process</div>
+        <h2 class="section-title reveal" data-delay="100" style="text-align:center;color:var(--white)">How We <span class="em">Deliver</span></h2>
+      </div>
+      <div class="process-grid">
+        <div class="proc-step reveal" data-delay="0"><div class="proc-num">01</div><h4>Discovery</h4><p>Deep-dive into your requirements, vision and business goals</p></div>
+        <div class="proc-step reveal" data-delay="100"><div class="proc-num">02</div><h4>Strategy</h4><p>Architecture planning, tech stack selection and roadmap</p></div>
+        <div class="proc-step reveal" data-delay="200"><div class="proc-num">03</div><h4>Design</h4><p>Pixel-perfect UI/UX prototypes reviewed and approved</p></div>
+        <div class="proc-step reveal" data-delay="300"><div class="proc-num">04</div><h4>Develop</h4><p>Agile sprints with regular demos and progress updates</p></div>
+        <div class="proc-step reveal" data-delay="400"><div class="proc-num">05</div><h4>Launch & Support</h4><p>Deployment, QA testing and ongoing maintenance</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-inner">
+      <div class="tag-label reveal" style="margin:0 auto 20px">Let's Build</div>
+      <h2 class="reveal" data-delay="100">Ready to Start<br>Your <em style="font-style:italic;color:var(--gold)">Dream Project?</em></h2>
+      <p class="body-large reveal" data-delay="200">Free consultation. Detailed proposal in 24 hours. No obligations.</p>
+      <div class="cta-btns reveal" data-delay="300">
+        <a href="contact.html" class="btn-gold">Start a Project ↗</a>
+        <a href="services.html" class="btn-outline">View Pricing</a>
+      </div>
+    </div>
+  </section>
+
+  <script src="shared-nav.js"></script>
+  <script>
+    // Marquee
+    const items = ['🌐 Website Development','📱 Mobile Apps','🖥️ Web Applications','🎨 UI/UX Design','🧪 QA & Testing','⚙️ Custom Software','🎮 Play Console Management','🔧 Website Maintenance','⭐ 10,000+ Projects','🏆 Premium Quality'];
+    const t = document.getElementById('mtrack');
+    [...items,...items].forEach(txt => {
+      const d = document.createElement('div'); d.className = 'marquee-item';
+      d.innerHTML = `<span class="marquee-dot"></span>${txt}`;
+      t.appendChild(d);
+    });
+  </script>
+</body>
+</html>
